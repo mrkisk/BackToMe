@@ -1,6 +1,7 @@
-class Player {
+class Player extends GameObject {
+    // use playerImage
     Game game;
-    int id;
+    int id, mode;
     int UP, DOWN, LEFT, RIGHT, SHOOT;
     float SPEED, JUMPSPEED, GRAVITY;
     float x, y;
@@ -8,9 +9,10 @@ class Player {
     float hp;
     int width_, height_;
     boolean onGround;
-    Player(Game game, int id, float x, float y) {
+    Player(Game game, int id, int mode, float x, float y) {
         this.game = game;
         this.id = id;
+        this.mode = mode;
         this.x = x;
         this.y = y;
         hp = 1;
@@ -29,11 +31,13 @@ class Player {
         JUMPSPEED = (float) (float) parameters.get("JumpSpeed");
         GRAVITY = (float) (float) parameters.get("Gravity");
     }
+    @Override
     void update() {
         setVelocity();
         setPosition();
         shoot();
     }
+    @Override
     void display() {
         int imageid = (vx == 0) ? 0 : onGround ? 1 : 2;
         translate(x, y);

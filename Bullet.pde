@@ -1,4 +1,4 @@
-class Bullet {
+class Bullet extends GameObject {
     boolean active;
     float x, y, speed;
     int dir, playerId;
@@ -18,6 +18,7 @@ class Bullet {
         ACCEL = (float) (float) parameters.get("BulletAccel");
         POWER = (float) (float) parameters.get("BulletPower");
     }
+    @Override
     void update() {
         if (!active) return;
         speed -= ACCEL;
@@ -25,6 +26,7 @@ class Bullet {
         y += dy4[dir] * speed;
         checkOutOfScreen();
     }
+    @Override
     void display() {
         if (!active) return;
         if (playerId == 0) {

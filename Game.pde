@@ -1,22 +1,23 @@
-class Game {
-    int scene;
+class Game extends GameObject {
+    // use grassImage, blockImage
+    int mode;
     Player[] players;
     HPBar[] hpBars;
     ArrayList<Bullet> bullets;
     Game() {
+        // this.mode = mode;
         init();
         initScene1();
     }
     void init() {
-        scene = 0;
         players = null;
         hpBars = null;
         bullets = null;
     }
     void initScene1() {
         players = new Player[] {
-            new Player(this, 0, 50, 130),
-            new Player(this, 1, width - 50, 130)
+            new Player(this, 0, mode, 50, 130),
+            new Player(this, 1, mode, width - 50, 130)
         };
         hpBars = new HPBar[] {
             new HPBar(players[0], 210, 540),
@@ -24,6 +25,7 @@ class Game {
         };
         bullets = new ArrayList<Bullet>();
     }
+    @Override
     void update() {
         for (Player player : players) player.update();
         for (HPBar hpBar : hpBars) hpBar.update();
@@ -38,6 +40,7 @@ class Game {
         }
         removeInactiveBullets();
     }
+    @Override
     void display() {
         displayStage();
         for (Player player : players) player.display();
@@ -47,9 +50,9 @@ class Game {
     void displayStage() {
         background(128, 255, 255);
         for (int i = 15; i < width; i += 30) {
-            image(grass, i, 480 + 15);
+            image(grassImage, i, 480 + 15);
             for (int j = 510 + 15; j < height; j+=30) {
-                image(block, i, j);
+                image(blockImage, i, j);
             }
         }
     }

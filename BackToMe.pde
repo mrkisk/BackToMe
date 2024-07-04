@@ -3,27 +3,45 @@ import java.util.HashMap;
 HashMap<String, Object> parameters;
 
 PImage[][] playerImage;
-PImage block;
-PImage grass;
-PImage title;
+PImage blockImage;
+PImage grassImage;
+PImage titleImage;
 // PFont fonta;
 final int dx4[] = {-1, 0, 1, 0};
 final int dy4[] = {0, -1, 0, 1};
 final float GROUNDHEIGHT = 480;
 Game game;
+Title title;
+int scene;
 
 void setup() {
     size(720, 600);
     frameRate(60);
     imageMode(CENTER);
+    textAlign(CENTER, CENTER);
+    // textFont(createFont("MS Gothic", 32, true));
     setParameterGlobal("config.txt");
     loadImages();
     // fonta=loadFont("AngsanaNew-Bold-120.vlw");
-    game = new Game();
+    scene = 0;
+    loadScene(scene);
 }
 
 void draw() {
     keyboardCheckOnDraw();
-    game.update();
-    game.display();
+    if (scene == 0) {
+        title.update();
+        title.display();
+    } else if (scene == 1) {
+        game.update();
+        game.display();
+    }
+}
+
+void loadScene(int scene) {
+    if (scene == 0) {
+        title = new Title();
+    }else if (scene == 1) {
+        game = new Game();
+    }
 }

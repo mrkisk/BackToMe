@@ -5,7 +5,7 @@ void loadImages() {
             playerImage[i][j] = loadImage("players.png").get(j*24, i*35, 24, 35);
         }
     }
-    grass = loadImage("grass.png");
-    block = loadImage("block.png");
-    title = loadImage("title.png");
+    grassImage = loadImage("grass.png");
+    blockImage = loadImage("block.png");
+    titleImage = loadImage("title.png");
 }

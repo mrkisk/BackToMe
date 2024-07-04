@@ -1,4 +1,4 @@
-class HPBar {
+class HPBar extends GameObject{
     Player player;
     float x, y;
     float width_, height_;
@@ -9,7 +9,9 @@ class HPBar {
         width_ = 220;
         height_ = 30;
     }
+    @Override
     void update() {}
+    @Override
     void display() {
         fill(255);
         rect(x - width_ / 2 - 1, y - height_ / 2 - 1, width_ + 2, height_ + 1);
