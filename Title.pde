@@ -7,6 +7,7 @@ class Title extends GameObject{
     int UP, DOWN, SHOOT;
     
     Title() {
+        super();
         titleY = 100;
         messageY = 300;
         messageSize = 50;
@@ -25,7 +26,7 @@ class Title extends GameObject{
     }
     @Override
     void update() {
-        pingPong.update();
+        pingPong.runUpdate();
         if (!showingRule && !selectingMode) {
             if (keyboardd[UP]) selectedMenu = 0;
             else if (keyboardd[DOWN]) selectedMenu = 1;

@@ -30,11 +30,11 @@ void setup() {
 void draw() {
     keyboardCheckOnDraw();
     if (scene == 0) {
-        title.update();
-        title.display();
+        title.runUpdate();
+        title.runDisplay();
     } else if (scene == 1) {
-        game.update();
-        game.display();
+        game.runUpdate();
+        game.runDisplay();
     }
 }
 

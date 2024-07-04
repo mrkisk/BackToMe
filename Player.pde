@@ -10,6 +10,7 @@ class Player extends GameObject {
     int width_, height_;
     boolean onGround;
     Player(Game game, int id, int mode, float x, float y) {
+        super();
         this.game = game;
         this.id = id;
         this.mode = mode;

@@ -1,10 +1,9 @@
 class Bullet extends GameObject {
-    boolean active;
     float x, y, speed;
     int dir, playerId;
     float RADIUS, SPEED, ACCEL, POWER;
     Bullet(int playerId, float x, float y, int dir) {
-        active = true;
+        super();
         setParameters();
         this.playerId = playerId;
         this.x = x + dx4[dir] * RADIUS;
@@ -20,7 +19,6 @@ class Bullet extends GameObject {
     }
     @Override
     void update() {
-        if (!active) return;
         speed -= ACCEL;
         x += dx4[dir] * speed;
         y += dy4[dir] * speed;
@@ -28,7 +26,6 @@ class Bullet extends GameObject {
     }
     @Override
     void display() {
-        if (!active) return;
         if (playerId == 0) {
             fill(0, 0, 0);
         } else {
@@ -37,15 +34,18 @@ class Bullet extends GameObject {
         ellipse(x, y, RADIUS * 2, RADIUS * 2);
     }
     boolean isColliding(Player player) {
-        if (!active) return false;
+        if (!getActive()) return false;
         float closestX = constrain(x, player.x - player.width_ / 2, player.x + player.width_ / 2);
         float closestY = constrain(y, player.y - player.height_ / 2, player.y + player.height_ / 2);
         return (x - closestX) * (x - closestX) + (y - closestY) * (y - closestY) < RADIUS * RADIUS;
     }
-    void deactive() { active = false; }
+    boolean isCollidingBullet(Bullet bullet) {
+        if (!getActive() || !bullet.getActive()) return false;
+        return (x - bullet.x) * (x - bullet.x) + (y - bullet.y) * (y - bullet.y) < RADIUS * RADIUS * 4;
+    }
     void checkOutOfScreen() {
         if (x < -width || x > width * 2 || y < -height || y > height * 2) {
-            active = false;
+            setActive(false);
         }
     }
 }

@@ -3,6 +3,7 @@ class HPBar extends GameObject{
     float x, y;
     float width_, height_;
     HPBar(Player player, float x, float y) {
+        super();
         this.player = player;
         this.x = x;
         this.y = y;
