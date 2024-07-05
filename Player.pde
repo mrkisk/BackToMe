@@ -3,10 +3,8 @@ class Player extends GameObject {
     Game game;
     int id, mode;
     int UP, DOWN, LEFT, RIGHT, SHOOT;
-    float SPEED, JUMPSPEED, GRAVITY;
-    float x, y;
-    float vx, vy;
-    float hp;
+    float SPEED, JUMPSPEED, GRAVITY, SPECIALJUMPRATE, SPECIALDAMAGE;
+    float x, y, vx, vy, hp;
     int width_, height_;
     boolean onGround;
     Player(Game game, int id, int mode, float x, float y) {
@@ -31,11 +29,14 @@ class Player extends GameObject {
         SPEED = (float) (float) parameters.get("Speed");
         JUMPSPEED = (float) (float) parameters.get("JumpSpeed");
         GRAVITY = (float) (float) parameters.get("Gravity");
+        SPECIALJUMPRATE = (float) (float) parameters.get("SpecialJumpRate");
+        SPECIALDAMAGE = (float) (float) parameters.get("SpecialDamage");
     }
     @Override
     void update() {
         setVelocity();
         setPosition();
+        specialDamage();
         shoot();
     }
     @Override
@@ -53,7 +54,20 @@ class Player extends GameObject {
         }
         translate(-x, -y);
     }
+    void setMode(int mode) {
+        this.mode = mode;
+    }
     void setVelocity() {
+        if (mode == 0) {
+            setVelocityMode0();
+        } else if (mode == 1) {
+            setVelocityMode1();
+        }
+    }
+    void setVelocityMode0() {
+        if (!onGround) {
+            vy += GRAVITY;
+        }
         if (keyboard[LEFT] && !keyboard[RIGHT]) {
             vx = -SPEED;
         } else if (!keyboard[LEFT] && keyboard[RIGHT]) {
@@ -65,8 +79,24 @@ class Player extends GameObject {
             onGround = false;
             vy = -JUMPSPEED;
         }
+    }
+    void setVelocityMode1() {
         if (!onGround) {
             vy += GRAVITY;
+        }
+        if (keyboard[LEFT] && !keyboard[RIGHT]) {
+            vx = -SPEED;
+        } else if (!keyboard[LEFT] && keyboard[RIGHT]) {
+            vx = SPEED;
+        } else {
+            vx = 0;
+        }
+        if (keyboard[UP]) {
+            onGround = false;
+            vy -= JUMPSPEED * SPECIALJUMPRATE;
+        }
+        if (vy < -JUMPSPEED) {
+            vy = -JUMPSPEED;
         }
     }
     void setPosition() {
@@ -80,9 +110,14 @@ class Player extends GameObject {
             y = GROUNDHEIGHT - height_ / 2;
             vy = 0;
             onGround = true;
-        } else if (y < 0) {
-            y = 0;
-            vy = -3; // 後で修正
+        } else if (y < height_ / 2) {
+            y = height_ / 2;
+            vy = 3; // 後で修正
+        }
+    }
+    void specialDamage() {
+        if (mode == 1 && onGround) {
+            damage(SPECIALDAMAGE);
         }
     }
     void shoot() {
@@ -102,6 +137,9 @@ class Player extends GameObject {
     }
     void damage(float power) {
         hp -= power;
-        hp = hp < 0 ? 0 : hp;
+        if (hp < 0) {
+            hp = 0;
+            game.setWinner(1 - id);
+        }
     }
 }

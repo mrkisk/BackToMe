@@ -38,10 +38,11 @@ void draw() {
     }
 }
 
-void loadScene(int scene) {
-    if (scene == 0) {
+void loadScene(int scene_) {
+    scene = scene_;
+    if (scene_ == 0) {
         title = new Title();
-    }else if (scene == 1) {
+    }else if (scene_ == 1) {
         game = new Game();
     }
 }

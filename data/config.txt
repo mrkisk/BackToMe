@@ -8,6 +8,8 @@ Player2DOWN: 40
 Player2LEFT: 37
 Player2RIGHT: 39
 Player2SHOOT: 16
+RETRY: 82
+TITLE: 84
 Speed: 3.0
 JumpSpeed: 10.0
 Gravity: 0.4
@@ -15,3 +17,5 @@ BulletRadius: 10.0
 BulletSpeed: 10.0
 BulletAccel: 0.25
 BulletPower: 0.095
+SpecialJumpRate: 0.1
+SpecialDamage: 0.002

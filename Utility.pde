@@ -41,7 +41,7 @@ class Timer extends GameObject {
     }
     @Override
     void update() {
-        time--;
+        if (time > 0) time--;
     }
     @Override
     void display() {

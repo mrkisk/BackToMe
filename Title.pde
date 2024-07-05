@@ -1,6 +1,6 @@
 class Title extends GameObject{
     // use titleImage, grassImage, blockImage
-    float titleY, messageY, messageSize, rotateSpeed;
+    float titleY, messageSize, rotateSpeed;
     PingPong pingPong;
     boolean showingRule, selectingMode;
     int selectedMenu, selectedMode;
@@ -9,7 +9,6 @@ class Title extends GameObject{
     Title() {
         super();
         titleY = 100;
-        messageY = 300;
         messageSize = 50;
         rotateSpeed = 0.04;
         pingPong = new PingPong(0, rotateSpeed);
@@ -44,9 +43,8 @@ class Title extends GameObject{
             if (keyboardd[UP]) selectedMode = 0;
             else if (keyboardd[DOWN]) selectedMode = 1;
             else if (keyboardd[SHOOT]) {
-                scene = 1;
-                loadScene(scene);
-                game.mode = selectedMode;
+                loadScene(1);
+                game.setMode(selectedMode);
             }
         }
     }
@@ -72,24 +70,35 @@ class Title extends GameObject{
         image(titleImage, width / 2, titleY);
     }
     void displayMenu() {
+        float upperMessageY = height / 2 - 60;
+        float lowerMessageY = height / 2 + 40;
         textSize(messageSize);
         fill(0);
-        text("START GAME", width / 2, height / 2 - 40);
-        text("GAME RULE", width / 2, height / 2 + 60);
-        if (selectedMenu == 0) displayTriangle(width / 2 - 160, height / 2 - 40);
-        else displayTriangle(width / 2 - 160, height / 2 + 60);
+        text("START GAME", width / 2, upperMessageY);
+        text("GAME RULE", width / 2, lowerMessageY);
+        if (selectedMenu == 0) displayTriangle(width / 2 - 160, upperMessageY);
+        else displayTriangle(width / 2 - 160, lowerMessageY);
+        displayDescription();
     }
     void displayRule() {
         fill(0);
         text("GAME RULE", width / 2, height / 2 - 40);
     }
     void displayMode() {
+        float upperMessageY = height / 2 - 60;
+        float lowerMessageY = height / 2 + 40;
         textSize(messageSize);
         fill(0);
-        text("STANDARD MODE", width / 2, height / 2 - 40);
-        text("SPECIAL MODE", width / 2, height / 2 + 60);
-        if (selectedMode == 0) displayTriangle(width / 2 - 220, height / 2 - 40);
-        else displayTriangle(width / 2 - 220, height / 2 + 60);
+        text("STANDARD MODE", width / 2, upperMessageY);
+        text("SPECIAL MODE", width / 2, lowerMessageY);
+        if (selectedMode == 0) displayTriangle(width / 2 - 220, upperMessageY);
+        else displayTriangle(width / 2 - 220, lowerMessageY);
+        displayDescription();
+    }
+    void displayDescription() {
+        textSize(messageSize / 2);
+        fill(0);
+        text("W,S : Move    Q : Select", width / 2, height / 2 + 125);
     }
     void displayTriangle(float x, float y) {
         fill(0, 0, 0, 0);

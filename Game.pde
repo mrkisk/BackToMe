@@ -1,7 +1,8 @@
 class Game extends GameObject {
     // use grassImage, blockImage
     int mode;
-    float messageSize;
+    int RETRY, TITLE;
+    float messageSize, messageY;
     Player[] players;
     HPBar[] hpBars;
     ArrayList<Bullet> bullets;
@@ -9,14 +10,16 @@ class Game extends GameObject {
     int winner, phase;
     Game() {
         super();
-        // this.mode = mode;
+        RETRY = (int) parameters.get("RETRY");
+        TITLE = (int) parameters.get("TITLE");
         messageSize = 100;
+        messageY = height / 2 - 40;
         init();
     }
     void init() {
         players = new Player[] {
-            new Player(this, 0, mode, 50, 130),
-            new Player(this, 1, mode, width - 50, 130)
+            new Player(this, 0, 0, 50, 130),
+            new Player(this, 1, 0, width - 50, 130)
         };
         hpBars = new HPBar[] {
             new HPBar(players[0], 210, 540),
@@ -26,11 +29,17 @@ class Game extends GameObject {
         stop();
         timers = new Timer[] {
             new Timer(120),
-            new Timer(30)
+            new Timer(30),
+            new Timer(45),
+            new Timer(15)
         };
-        timers[1].doUpdate = false;
+        for (int i = 1; i < timers.length; i++) timers[i].setActive(false);
         winner = -1;
         phase = 0;
+    }
+    void setMode(int mode) {
+        this.mode = mode;
+        for (Player player : players) player.setMode(mode);
     }
     void stop() {
         for (Player player : players) player.setDoUpdate(false);
@@ -59,16 +68,22 @@ class Game extends GameObject {
         if (!timers[0].isFinished()) {
             phase = 0;
         } else if (!timers[1].isFinished()) {
-            timers[1].setDoUpdate(true);
+            timers[1].setActive(true);
             for (Player player : players) player.setDoUpdate(true);
             phase = 1;
         } else if (winner == -1) {
             phase = 2;
-        } else {
+        } else if  (!timers[2].isFinished()) {
+            timers[2].setActive(true);
             for (Player player : players) player.setDoUpdate(false);
             for (HPBar hpBar : hpBars) hpBar.setDoUpdate(false);
             for (Bullet bullet : bullets) bullet.setDoUpdate(false);
             phase = 3;
+        } else {
+            timers[3].setActive(true);
+            phase = 4;
+            if (keyboardd[RETRY]) loadScene(1);
+            else if (keyboardd[TITLE]) loadScene(0);
         }
     }
     void addBullet(int playerId, float x, float y, int dir) {
@@ -97,6 +112,9 @@ class Game extends GameObject {
             }
         }
     }
+    void setWinner(int playerId) {
+        winner = (winner == -1) ? playerId : (winner == 1 - playerId) ? 2 : winner;
+    }
     void displayStage() {
         background(128, 255, 255);
         for (int i = 15; i < width; i += 30) {
@@ -108,26 +126,33 @@ class Game extends GameObject {
     }
     void displayOnPhase() {
         if (phase == 0) {
-            fill(0, 0, 0, 100);
-            noStroke();
-            rect(0, 0, width, height);
-            stroke(0);
+            displayBlack();
             textSize(messageSize);
             fill(255, 0, 0);
-            text("READY", width / 2, height / 2);
+            text("READY", width / 2, messageY);
         } else if (phase == 1) {
             textSize(messageSize);
             fill(255, 0, 0);
-            text("GO", width / 2, height / 2);
+            text("GO", width / 2, messageY);
         } else if (phase == 2) {
         } else if (phase == 3) {
-            fill(0, 0, 0, 100);
-            noStroke();
-            rect(0, 0, width, height);
-            stroke(0);
-            textSize(messageSize);
+            displayBlack();
+        } else if (phase == 4) {
+            displayBlack();
+            textSize(messageSize * (timers[3].getMaxTime() - timers[3].getTime()) / timers[3].getMaxTime());
             fill(255, 0, 0);
-            text("PLAYER " + (winner + 1) + " WINS", width / 2, height / 2);
+            String winnerText = (winner == 2) ? "DRAW" : ("PLAYER " + (winner + 1) + " WINS");
+            text(winnerText, width / 2, messageY);
+            if (timers[3].isFinished()) {
+                textSize(messageSize / 3);
+                text("R : Retry    T : Title", width / 2, messageY + 80);
+            }
         }
+    }
+    void displayBlack() {
+        fill(0, 0, 0, 100);
+        noStroke();
+        rect(0, 0, width, height);
+        stroke(0);
     }
 }
