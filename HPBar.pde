@@ -14,6 +14,20 @@ class HPBar extends GameObject{
     void update() {}
     @Override
     void display() {
+        displayIcon();
+        displayGauge();
+    }
+    void displayIcon() {
+        float x_, y_;
+        if (player.id == 0) {
+            x_ = x - width_ / 2 - 30;
+        } else {
+            x_ = x + width_ / 2 + 30;
+        }
+        y_ = y;
+        image(playerImage[player.id][0], x_, y_, height_ * 2, height_, 0, 0, player.width_, player.width_ / 2);
+    }
+    void displayGauge() {
         fill(255);
         rect(x - width_ / 2 - 1, y - height_ / 2 - 1, width_ + 2, height_ + 1);
         int colorRate = 5;

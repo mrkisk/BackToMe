@@ -1,5 +1,5 @@
 class Title extends GameObject{
-    // use titleImage, grassImage, blockImage
+    // use titleImage, grassImage, blockImage, ruleImage
     float titleY, messageSize, rotateSpeed;
     PingPong pingPong;
     boolean showingRule, selectingMode;
@@ -82,7 +82,14 @@ class Title extends GameObject{
     }
     void displayRule() {
         fill(0);
-        text("GAME RULE", width / 2, height / 2 - 40);
+        textSize(messageSize / 8 * 7);
+        text("GAME RULE", width / 2, height / 2 - 130);
+        fill(0);
+        textAlign(LEFT, TOP);
+        textSize(messageSize / 5 * 3);
+        text("Player 1\nWASD keys : Move\nQ key : Shoot\n\nPlayer 2\nArrow keys : Move\nShift key : Shoot", 70, height / 2 - 80);
+        textAlign(CENTER, CENTER);
+        image(ruleImage, width * 0.7, height / 2 + 40, ruleImage.width / 7 * 3, ruleImage.height / 7 * 3);
     }
     void displayMode() {
         float upperMessageY = height / 2 - 60;

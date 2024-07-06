@@ -8,4 +8,5 @@ void loadImages() {
     grassImage = loadImage("grass.png");
     blockImage = loadImage("block.png");
     titleImage = loadImage("title.png");
+    ruleImage = loadImage("rule.png");
 }

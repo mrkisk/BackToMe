@@ -41,6 +41,11 @@ class Game extends GameObject {
         this.mode = mode;
         for (Player player : players) player.setMode(mode);
     }
+    void start() {
+        for (Player player : players) player.setDoUpdate(true);
+        for (HPBar hpBar : hpBars) hpBar.setDoUpdate(true);
+        for (Bullet bullet : bullets) bullet.setDoUpdate(true);
+    }
     void stop() {
         for (Player player : players) player.setDoUpdate(false);
         for (HPBar hpBar : hpBars) hpBar.setDoUpdate(false);
@@ -48,6 +53,8 @@ class Game extends GameObject {
     }
     @Override
     void update() {
+        if (keyboardd[10]) start();
+        if (keyboardd[80]) stop();
         setPhase();
         for (Timer timer : timers) timer.runUpdate();
         for (Player player : players) player.runUpdate();
@@ -82,7 +89,10 @@ class Game extends GameObject {
         } else {
             timers[3].setActive(true);
             phase = 4;
-            if (keyboardd[RETRY]) loadScene(1);
+            if (keyboardd[RETRY]) {
+                loadScene(1);
+                game.setMode(mode);
+            }
             else if (keyboardd[TITLE]) loadScene(0);
         }
     }

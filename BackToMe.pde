@@ -3,9 +3,7 @@ import java.util.HashMap;
 HashMap<String, Object> parameters;
 
 PImage[][] playerImage;
-PImage blockImage;
-PImage grassImage;
-PImage titleImage;
+PImage titleImage, blockImage, grassImage, ruleImage;
 // PFont fonta;
 final int dx4[] = {-1, 0, 1, 0};
 final int dy4[] = {0, -1, 0, 1};
