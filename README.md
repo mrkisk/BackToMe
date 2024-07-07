@@ -33,7 +33,7 @@ General Controls
 
 ## Configuration
 
-The `data/config.txt` specifies the key configuration, player movement capabilities, and bullet performance.
+The [data/config.txt](./data/config.txt) specifies the key configuration, player movement capabilities, and bullet performance.
 
 ## Installation and Usage
 
