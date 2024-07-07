@@ -4,6 +4,8 @@
 
 BackToMe is a competitive action shooting game where players shoot bullets that come back to them.
 
+You can also play the game in your browser by clicking [here](https://mrkisk.github.io/backtome-game/) ([code](https://github.com/mrkisk/backtome-game)).
+
 ## DEMO
 
 ![Demo](./assets/demo.gif)
