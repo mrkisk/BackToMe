@@ -30,6 +30,7 @@ Player 2 Controls
 
 General Controls
 - W,S Keys: Move the cursor.
+- Q Keys: Select the option.
 - R Key: Retry the game.
 - T Key: Move to the title.
 
